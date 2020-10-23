@@ -24,7 +24,7 @@ public class OrderPO {
 
     private int total;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "orderPO", fetch=FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "orderPO", fetch=FetchType.LAZY, orphanRemoval = true)
     private List<OrderItemPO> orderItem;
 
     public String getId() {

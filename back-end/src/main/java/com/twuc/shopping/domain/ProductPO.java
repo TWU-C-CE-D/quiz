@@ -30,7 +30,7 @@ public class ProductPO {
 
     private String url;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "productPO", fetch=FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "productPO", fetch=FetchType.LAZY, orphanRemoval = true)
     private List<OrderItemPO> orderItem;
 
     public String getName() {
