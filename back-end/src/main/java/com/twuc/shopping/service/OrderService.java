@@ -2,13 +2,15 @@ package com.twuc.shopping.service;
 
 import com.twuc.shopping.common.errors.ErrorCode;
 import com.twuc.shopping.common.exceptions.BadRequestException;
-import com.twuc.shopping.domain.Order;
-import com.twuc.shopping.domain.OrderItem;
-import com.twuc.shopping.domain.Product;
+import com.twuc.shopping.domain.OrderPO;
+import com.twuc.shopping.domain.OrderItemPO;
+import com.twuc.shopping.domain.ProductPO;
 import com.twuc.shopping.model.addOrder.AddProductVO;
+import com.twuc.shopping.repository.OrderItemRepository;
 import com.twuc.shopping.repository.OrderRepository;
 import com.twuc.shopping.repository.ProductRepository;
 
+import java.util.Calendar;
 import java.util.List;
 import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -24,38 +26,49 @@ public class OrderService {
 
     final ProductRepository productRepository;
 
-    public OrderService(OrderRepository orderRepository, ProductRepository productRepository) {
+    final OrderItemRepository orderItemRepository;
+
+    public OrderService(OrderRepository orderRepository,
+                        ProductRepository productRepository,
+                        OrderItemRepository orderItemRepository) {
         this.orderRepository = orderRepository;
         this.productRepository = productRepository;
+        this.orderItemRepository = orderItemRepository;
     }
 
     public void save(List<AddProductVO> addProductVOS) {
         AtomicInteger total = new AtomicInteger();
-        List<OrderItem> orderItems = addProductVOS.stream().map(p -> {
-            Optional<Product> optional = productRepository.findById(p.getName());
+        AtomicInteger index = new AtomicInteger(1);
+        OrderPO orderPO = OrderPO.builder().id(generateOrderNo()).build();
+        List<OrderItemPO> orderItems = addProductVOS.stream().map(p -> {
+            Optional<ProductPO> optional = productRepository.findById(p.getName());
             if (!optional.isPresent()) {
                 throw new BadRequestException(ErrorCode.PRODUCT_NOT_EXIST);
             }
-            Product product = optional.get();
-            total.addAndGet(product.getPrice());
-            return OrderItem.builder()
+            ProductPO productPO = optional.get();
+            total.addAndGet(productPO.getPrice());
+            return OrderItemPO.builder()
+                    .id(index.getAndIncrement())
                     .number(p.getNumber())
-                    .product(product)
+                    .orderPO(orderPO)
+                    .productPO(productPO)
                     .build();
         }).collect(Collectors.toList());
-
-        Order order = Order.builder()
-                .orderItem(orderItems)
-                .total(total.get())
-                .build();
-        orderRepository.save(order);
+        orderPO.setTotal(total.get());
+        orderPO.setOrderItem(orderItems);
+        orderRepository.save(orderPO);
     }
 
-    public List<Order> findAll() {
+    private String generateOrderNo() {
+        Calendar calendar = Calendar.getInstance();
+        return String.valueOf(calendar.getTime().getTime());
+    }
+
+    public List<OrderPO> findAll() {
         return orderRepository.findAll();
     }
 
-    public Optional<Order> findById(String id) {
+    public Optional<OrderPO> findById(String id) {
         return orderRepository.findById(id);
     }
 

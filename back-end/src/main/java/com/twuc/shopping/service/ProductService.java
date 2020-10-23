@@ -2,7 +2,7 @@ package com.twuc.shopping.service;
 
 import com.twuc.shopping.common.errors.ErrorCode;
 import com.twuc.shopping.common.exceptions.BadRequestException;
-import com.twuc.shopping.domain.Product;
+import com.twuc.shopping.domain.ProductPO;
 import com.twuc.shopping.model.addProduct.AddProductRequest;
 import com.twuc.shopping.repository.ProductRepository;
 
@@ -22,20 +22,20 @@ public class ProductService {
     }
 
     public void save(AddProductRequest request) {
-        Optional<Product> optional = productRepository.findById(request.getName());
+        Optional<ProductPO> optional = productRepository.findById(request.getName());
         if (optional.isPresent()) {
             throw new BadRequestException(ErrorCode.PRODUCT_NAME_EXIST);
         }
-        Product product = Product.builder()
+        ProductPO productPO = ProductPO.builder()
                 .name(request.getName())
                 .price(request.getPrice())
                 .unit(request.getUnit())
                 .url(request.getUrl())
                 .build();
-        productRepository.save(product);
+        productRepository.save(productPO);
     }
 
-    public List<Product> findAll() {
+    public List<ProductPO> findAll() {
         return productRepository.findAll();
     }
 

@@ -1,6 +1,6 @@
 package com.twuc.shopping.repository;
 
-import com.twuc.shopping.domain.Order;
+import com.twuc.shopping.domain.OrderPO;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.List;
@@ -9,9 +9,9 @@ import java.util.List;
  * Created by wudibin
  * 2020/10/23
  */
-public interface OrderRepository extends CrudRepository<Order, String> {
+public interface OrderRepository extends CrudRepository<OrderPO, String> {
 
     @Override
-    List<Order> findAll();
+    List<OrderPO> findAll();
 
 }

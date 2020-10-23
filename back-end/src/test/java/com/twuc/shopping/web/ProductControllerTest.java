@@ -1,8 +1,7 @@
 package com.twuc.shopping.web;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.twuc.shopping.domain.Product;
+import com.twuc.shopping.domain.ProductPO;
 import com.twuc.shopping.model.addProduct.AddProductRequest;
 import com.twuc.shopping.repository.ProductRepository;
 import org.junit.jupiter.api.*;
@@ -37,16 +36,14 @@ public class ProductControllerTest {
     @Autowired
     ProductRepository productRepository;
 
-    private ObjectMapper objectMapper;
-
     private String addProductRequestContent;
 
-    private Product product;
+    private ProductPO productPO;
 
     @BeforeEach
     void setUp() throws Exception {
         productRepository.deleteAll();
-        objectMapper = new ObjectMapper();
+        ObjectMapper objectMapper = new ObjectMapper();
 
         AddProductRequest request = AddProductRequest.builder()
                 .name("可乐")
@@ -56,7 +53,7 @@ public class ProductControllerTest {
                 .build();
         addProductRequestContent = objectMapper.writeValueAsString(request);
 
-        product = Product.builder()
+        productPO = ProductPO.builder()
                 .name(request.getName())
                 .price(request.getPrice())
                 .unit(request.getUnit())
@@ -72,15 +69,15 @@ public class ProductControllerTest {
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated());
 
-        List<Product> products = productRepository.findAll();
-        assertEquals(1, products.size());
-        assertEquals("可乐", products.get(0).getName());
+        List<ProductPO> productPOs = productRepository.findAll();
+        assertEquals(1, productPOs.size());
+        assertEquals("可乐", productPOs.get(0).getName());
     }
 
     @Test
     @Order(2)
     public void shoule_not_add_product_when_product_name_exist() throws Exception {
-        productRepository.save(product);
+        productRepository.save(productPO);
         mockMvc.perform(post("/product")
                 .content(addProductRequestContent)
                 .contentType(MediaType.APPLICATION_JSON))
@@ -90,7 +87,7 @@ public class ProductControllerTest {
     @Test
     @Order(3)
     public void should_get_all_products() throws Exception {
-        productRepository.save(product);
+        productRepository.save(productPO);
         mockMvc.perform(get("/products"))
                 .andExpect(jsonPath("$", hasSize(1)))
                 .andExpect(jsonPath("$[0].name", is("可乐")))

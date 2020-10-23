@@ -1,5 +1,6 @@
 package com.twuc.shopping;
 
+import com.twuc.shopping.repository.OrderItemRepository;
 import com.twuc.shopping.repository.OrderRepository;
 import com.twuc.shopping.repository.ProductRepository;
 import com.twuc.shopping.service.OrderService;
@@ -19,6 +20,9 @@ public class CorsConfig {
 
     @Autowired
     OrderRepository orderRepository;
+
+    @Autowired
+    OrderItemRepository orderItemRepository;
 
     private static String[] originsVal = new String[]{
             "127.0.0.1:8080",
@@ -51,6 +55,6 @@ public class CorsConfig {
 
     @Bean
     public OrderService orderService() {
-        return new OrderService(orderRepository, productRepository);
+        return new OrderService(orderRepository, productRepository, orderItemRepository);
     }
 }

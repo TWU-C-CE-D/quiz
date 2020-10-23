@@ -1,6 +1,6 @@
 package com.twuc.shopping.web;
 
-import com.twuc.shopping.domain.Product;
+import com.twuc.shopping.domain.ProductPO;
 import com.twuc.shopping.model.addProduct.AddProductRequest;
 import com.twuc.shopping.model.getProducts.GetProductsResponse;
 import com.twuc.shopping.service.ProductService;
@@ -31,8 +31,8 @@ public class ProductController {
     @GetMapping("/products")
     @ResponseStatus(HttpStatus.OK)
     public List<GetProductsResponse> getProducts() {
-        List<Product> products = productService.findAll();
-        return products.stream().map(p -> GetProductsResponse.builder()
+        List<ProductPO> productPOs = productService.findAll();
+        return productPOs.stream().map(p -> GetProductsResponse.builder()
                 .name(p.getName())
                 .price(p.getPrice())
                 .unit(p.getUnit())

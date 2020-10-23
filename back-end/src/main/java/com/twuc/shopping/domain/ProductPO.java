@@ -1,5 +1,6 @@
 package com.twuc.shopping.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,13 +13,14 @@ import java.util.List;
  * Created by wudibin
  * 2020/10/23
  */
-@Entity
 @Data
+@Entity
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
+@JsonIgnoreProperties(ignoreUnknown = true)
 @Table(name = "ShopProduct")
-public class Product {
+public class ProductPO {
 
     @Id
     private String name;
@@ -29,7 +31,7 @@ public class Product {
 
     private String url;
 
-    @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "product")
-    private List<OrderItem> orderItem;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "productPO", fetch=FetchType.EAGER)
+    private List<OrderItemPO> orderItem;
 
 }
