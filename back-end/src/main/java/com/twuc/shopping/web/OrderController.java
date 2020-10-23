@@ -11,10 +11,13 @@ import com.twuc.shopping.service.OrderService;
 import com.twuc.shopping.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 
@@ -32,7 +35,7 @@ public class OrderController {
     ProductService productService;
 
     @PostMapping("/order")
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.CREATED)
     public void addOrder(@RequestBody @Valid AddOrderRequest request) {
         if (request.getAddProductVOS().isEmpty()) {
             throw new BadRequestException(ErrorCode.SHOPPING_CART_EMPTY);
@@ -41,6 +44,7 @@ public class OrderController {
     }
 
     @GetMapping("/orders")
+    @ResponseStatus(HttpStatus.OK)
     public GetOrdersResponse getOrders() {
         List<Order> orders = orderService.findAll();
         List<GetOrderVO> getOrderVOs = orders.stream().map(o -> {
@@ -61,5 +65,16 @@ public class OrderController {
         return GetOrdersResponse.builder()
                 .getOrderVOs(getOrderVOs)
                 .build();
+    }
+
+    @Transactional
+    @DeleteMapping("/order/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteOrder(@PathVariable String id) {
+        Optional<Order> optional = orderService.findById(id);
+        if (!optional.isPresent()) {
+            throw new BadRequestException(ErrorCode.ORDER_NOT_EXIST);
+        }
+        orderService.deleteById(id);
     }
 }

@@ -55,4 +55,11 @@ public class OrderService {
         return orderRepository.findAll();
     }
 
+    public Optional<Order> findById(String id) {
+        return orderRepository.findById(id);
+    }
+
+    public void deleteById(String id) {
+        orderRepository.deleteById(id);
+    }
 }
