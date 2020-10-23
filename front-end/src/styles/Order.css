@@ -1,4 +1,13 @@
 table {
     border-collapse: separate;
-    border-spacing: 110px 50px;
+    border-spacing: 100px 5px;
+}
+
+.order button {
+    width: 50px;
+    height: 30px;
+    background-color: rgb(220, 53, 69);
+    color: #FFFFFF;
+    border-radius:5px;
+    border:none;
 }

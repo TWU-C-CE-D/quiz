@@ -61,13 +61,18 @@ class Shop extends Component {
         console.log("id: " + this.state.data[key].id);
         this.state.data[key].number = 1;
         this.status.addButtonDisabled = true;
-        fetch('http://localhost:8080/order/' + this.state.data[key].id, {
+        fetch('http://localhost:8080/order', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(this.state.data[key])
-        }).then(response => response.json())
+            body: JSON.stringify({
+                addProductVOs : [{
+                    name: this.state.data[key].name,
+                    number: this.state.data[key].number
+                }]
+            })
+        })
             .then(result => {
                 alert("添加成功");
                 console.log(result);
@@ -109,7 +114,7 @@ class Shop extends Component {
                 <div className="cart">
                     <button
                         style={{width:'30px',height:'30px',borderRadius:'50%',border:'none',backgroundColor:'rgb(0, 122, 255)',float:'right',
-                            marginTop: '32%', marginRight: '5%'}}
+                            marginTop: '65%', marginRight: '5%'}}
                         onClick={this.showModal}
                     ><img src={shopImg} alt='shop'/>
                     </button>
