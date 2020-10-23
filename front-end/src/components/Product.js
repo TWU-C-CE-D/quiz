@@ -41,16 +41,15 @@ class Product extends Component {
                     },
                     body: JSON.stringify(this.state)
                 }).then(Product.checkStatus)
-                    .then(response => response.json())
                     .then(result => {
-                        alert("添加成功");
-                        console.log(result);
                         this.status.submitButtonDisabled = false;
+                        alert("添加成功");
+                        form.resetFields();
                     })
                     .catch(result => {
-                        alert("添加失败");
-                        console.log(result);
                         this.status.submitButtonDisabled = false;
+                        alert("商品名称已存在，请输入新的商品名称");
+                        form.resetFields();
                     })
             }
         });
@@ -151,7 +150,6 @@ class Product extends Component {
                         <button
                             type="submit"
                             className="button primary"
-                            styleName="button"
                             disabled={this.status.submitButtonDisabled ? 'disabled' : ''}>提 交</button>
                     </div>
                 </Form>

@@ -2,3 +2,22 @@ img {
     width: 100px;
     height: 110px;
 }
+
+.content {
+    text-align: left;
+    margin-left: 15px;
+}
+
+.content p {
+    font-size: 13px;
+    color: rgb(137, 137, 137);
+}
+
+.content h4 {
+    margin-bottom: -4px;
+}
+
+button img {
+    width: 15px;
+    height: 15px;
+}

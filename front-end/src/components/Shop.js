@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import imgURL from '../img/cola.jpg'
 import '../styles/Shop.css';
+import shopImg from "../img/shop.png";
 
 const URL = 'http://localhost:8080/products';
 
@@ -54,24 +55,33 @@ class Shop extends Component {
                 {Object.keys(this.state.data)
                     .map((key) => (
                         <div key={key} style={{
-                            border: 'solid #ededed',
+                            border: '2px solid #EEEEEE',
                             width: '150px',
-                            height: '250px',
+                            height: '240px',
                             margin: '30px',
                             float: 'left'
                         }}>
                             <img src={this.state.data[key].url} alt="cola"/>
-                            <h3>{this.state.data[key].name}</h3>
-                            <p>单价：{this.state.data[key].price}/{this.state.data[key].unit}</p>
+                            <div className="content">
+                                <h4>{this.state.data[key].name}</h4>
+                                <p>单价：{this.state.data[key].price}/{this.state.data[key].unit}</p>
+                            </div>
                             <button
                                 className="btn btn-success m-2"
-                                style={{width:'30px',height:'30px',borderRadius:'50%',border:'none'}}
+                                style={{width:'30px',height:'30px',borderRadius:'50%',border:'2px solid #EEEEEE',backgroundColor:'white',float:'right',marginRight:'17px'}}
                                 onClick={() => this.handler(key)}
                                 disabled={this.status.addButtonDisabled ? 'disabled' : ''}
                             >+
                             </button>
                         </div>
                     ))}
+                <div className="cart">
+                    <button
+                        style={{width:'30px',height:'30px',borderRadius:'50%',border:'none',backgroundColor:'rgb(0, 122, 255)',float:'right',
+                            marginTop: '32%', marginRight: '5%'}}
+                    ><img src={shopImg} alt='shop'/>
+                    </button>
+                </div>
             </div>
         );
     }
