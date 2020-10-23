@@ -2,8 +2,20 @@ import React, {Component} from 'react';
 import imgURL from '../img/cola.jpg'
 import '../styles/Shop.css';
 import shopImg from "../img/shop.png";
+import Modal from "antd/es/modal";
+import Button from "antd/es/button";
 
 const URL = 'http://localhost:8080/products';
+const customStyles = {
+    content : {
+        top                   : '50%',
+        left                  : '50%',
+        right                 : 'auto',
+        bottom                : 'auto',
+        marginRight           : '-50%',
+        transform             : 'translate(-50%, -50%)'
+    }
+};
 
 class Shop extends Component {
 
@@ -11,10 +23,28 @@ class Shop extends Component {
         addButtonDisabled: false
     };
 
+    showModal = () => {
+        this.setState({
+            visible: true
+        })
+    };
+
+    onCancel = () => {
+        this.setState({
+            visible: false
+        })
+    };
+
+    onOk = () => {
+        this.setState({
+            visible: false
+        })
+    };
+
     constructor(props) {
         super(props);
         this.state = {
-            data: {},
+            data: {}
         };
     }
 
@@ -50,6 +80,7 @@ class Shop extends Component {
     }
 
     render() {
+        const { visible } = this.state;
         return (
             <div className="shop">
                 {Object.keys(this.state.data)
@@ -62,7 +93,7 @@ class Shop extends Component {
                             float: 'left'
                         }}>
                             <img src={this.state.data[key].url} alt="cola"/>
-                            <div className="content">
+                            <div className="label-content">
                                 <h4>{this.state.data[key].name}</h4>
                                 <p>单价：{this.state.data[key].price}/{this.state.data[key].unit}</p>
                             </div>
@@ -79,8 +110,21 @@ class Shop extends Component {
                     <button
                         style={{width:'30px',height:'30px',borderRadius:'50%',border:'none',backgroundColor:'rgb(0, 122, 255)',float:'right',
                             marginTop: '32%', marginRight: '5%'}}
+                        onClick={this.showModal}
                     ><img src={shopImg} alt='shop'/>
                     </button>
+                </div>
+                <div>
+                    <Modal
+                        visible={visible}
+                        onCancel={this.onCancel}
+                        onOk={this.onOk}
+                        style={customStyles}
+                        contentLabel="Example Modal">
+                        <div>
+                            Modal Content
+                        </div>
+                    </Modal>
                 </div>
             </div>
         );

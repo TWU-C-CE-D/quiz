@@ -3,17 +3,17 @@ img {
     height: 110px;
 }
 
-.content {
+.label-content {
     text-align: left;
     margin-left: 15px;
 }
 
-.content p {
+.label-content p {
     font-size: 13px;
     color: rgb(137, 137, 137);
 }
 
-.content h4 {
+.label-content h4 {
     margin-bottom: -4px;
 }
 
