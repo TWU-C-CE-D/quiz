@@ -60,7 +60,6 @@ public class OrderController {
                     .total(o.getTotal())
                     .build();
         }).collect(Collectors.toList());
-
         return GetOrdersResponse.builder()
                 .getOrderVOs(getOrderVOs)
                 .build();

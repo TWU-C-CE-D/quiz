@@ -1,6 +1,7 @@
 package com.twuc.shopping.web;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.twuc.shopping.domain.OrderItemPO;
 import com.twuc.shopping.domain.OrderPO;
 import com.twuc.shopping.domain.ProductPO;
 import com.twuc.shopping.model.addOrder.AddOrderRequest;
@@ -15,10 +16,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.is;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
@@ -43,6 +48,10 @@ public class OrderControllerTest {
 
     private ProductPO productPO;
 
+    private OrderItemPO orderItemPO;
+
+    private OrderPO orderPO;
+
     @BeforeEach
     void setUp() throws Exception {
         productRepository.deleteAll();
@@ -55,13 +64,21 @@ public class OrderControllerTest {
                 .addProductVOs(addProductVOs)
                 .build();
         addOrderRequestContent = objectMapper.writeValueAsString(request);
-
         productPO = ProductPO.builder()
                 .name("可乐")
                 .price(3)
                 .unit("瓶")
                 .url("/img/cola.jpg")
                 .build();
+        orderPO = OrderPO.builder().id("12345").build();
+        orderItemPO = OrderItemPO.builder()
+                .number(5)
+                .productPO(productPO)
+                .orderPO(orderPO)
+                .build();
+        List<OrderItemPO> orderItemPOs = Lists.newArrayList(orderItemPO);
+        orderPO.setOrderItem(orderItemPOs);
+        orderPO.setTotal(productPO.getPrice());
     }
 
     @Test
@@ -85,6 +102,17 @@ public class OrderControllerTest {
                 .content(addOrderRequestContent)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    @Order(3)
+    public void should_get_all_order() throws Exception {
+        productRepository.save(productPO);
+        OrderPO saveOrder = orderRepository.save(orderPO);
+        mockMvc.perform(get("/orders"))
+                .andExpect(jsonPath("$.getOrderVOs", hasSize(1)))
+                .andExpect(jsonPath("$.getOrderVOs[0].orderId", is(saveOrder.getId())))
+                .andExpect(status().isOk());
     }
 
 }
