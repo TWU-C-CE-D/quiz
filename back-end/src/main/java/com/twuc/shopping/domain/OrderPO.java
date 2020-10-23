@@ -11,7 +11,6 @@ import java.util.List;
  * Created by wudibin
  * 2020/10/23
  */
-@Data
 @Entity
 @Builder
 @NoArgsConstructor
@@ -25,7 +24,30 @@ public class OrderPO {
 
     private int total;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "orderPO", fetch=FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "orderPO", fetch=FetchType.LAZY)
     private List<OrderItemPO> orderItem;
 
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public int getTotal() {
+        return total;
+    }
+
+    public void setTotal(int total) {
+        this.total = total;
+    }
+
+    public List<OrderItemPO> getOrderItem() {
+        return orderItem;
+    }
+
+    public void setOrderItem(List<OrderItemPO> orderItem) {
+        this.orderItem = orderItem;
+    }
 }

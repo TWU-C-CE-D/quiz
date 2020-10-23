@@ -13,7 +13,6 @@ import java.util.List;
  * Created by wudibin
  * 2020/10/23
  */
-@Data
 @Entity
 @Builder
 @NoArgsConstructor
@@ -31,7 +30,46 @@ public class ProductPO {
 
     private String url;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "productPO", fetch=FetchType.EAGER)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "productPO", fetch=FetchType.LAZY)
     private List<OrderItemPO> orderItem;
 
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
+
+    public void setUnit(String unit) {
+        this.unit = unit;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public List<OrderItemPO> getOrderItem() {
+        return orderItem;
+    }
+
+    public void setOrderItem(List<OrderItemPO> orderItem) {
+        this.orderItem = orderItem;
+    }
 }

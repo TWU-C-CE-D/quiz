@@ -6,6 +6,7 @@ import com.twuc.shopping.domain.OrderPO;
 import com.twuc.shopping.domain.OrderItemPO;
 import com.twuc.shopping.domain.ProductPO;
 import com.twuc.shopping.model.addOrder.AddProductVO;
+import com.twuc.shopping.repository.OrderItemRepository;
 import com.twuc.shopping.repository.OrderRepository;
 import com.twuc.shopping.repository.ProductRepository;
 
@@ -25,10 +26,14 @@ public class OrderService {
 
     final ProductRepository productRepository;
 
+    final OrderItemRepository orderItemRepository;
+
     public OrderService(OrderRepository orderRepository,
-                        ProductRepository productRepository) {
+                        ProductRepository productRepository,
+                        OrderItemRepository orderItemRepository) {
         this.orderRepository = orderRepository;
         this.productRepository = productRepository;
+        this.orderItemRepository = orderItemRepository;
     }
 
     public void save(List<AddProductVO> addProductVOS) {

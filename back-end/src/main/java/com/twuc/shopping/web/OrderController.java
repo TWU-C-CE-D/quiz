@@ -33,6 +33,7 @@ public class OrderController {
     @Autowired
     ProductService productService;
 
+    @Transactional
     @PostMapping("/order")
     @ResponseStatus(HttpStatus.CREATED)
     public void addOrder(@RequestBody @Valid AddOrderRequest request) {

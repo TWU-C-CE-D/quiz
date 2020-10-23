@@ -89,10 +89,7 @@ public class OrderControllerTest {
                 .content(addOrderRequestContent)
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated());
-
-        List<OrderPO> orderPOs = orderRepository.findAll();
-        assertEquals(1, orderPOs.size());
-        assertEquals("可乐", orderPOs.get(0).getOrderItem().get(0).getProductPO().getName());
+        assertEquals(1, orderRepository.findAll().size());
     }
 
     @Test
@@ -113,6 +110,16 @@ public class OrderControllerTest {
                 .andExpect(jsonPath("$.getOrderVOs", hasSize(1)))
                 .andExpect(jsonPath("$.getOrderVOs[0].orderId", is(saveOrder.getId())))
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    @Order(4)
+    public void should_delete_order_when_id_exsit() throws Exception {
+        productRepository.save(productPO);
+        OrderPO saveOrder = orderRepository.save(orderPO);
+        mockMvc.perform(delete("/order/{id}", saveOrder.getId()))
+                .andExpect(status().isOk());
+        assertEquals(0, orderRepository.findAll().size());
     }
 
 }
