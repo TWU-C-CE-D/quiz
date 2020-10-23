@@ -1,0 +1,26 @@
+.head {
+    height : 70px;
+    width: 100%;
+    background-color: rgb(0, 21, 41);
+}
+
+.head {
+    padding-left: 85px;
+}
+
+a {
+    float: left;
+    line-height: 70px;
+    width: 150px;
+    text-align: center;
+    color: #ffffff;
+}
+
+a:hover {
+    background-color: rgb(23, 145, 255);
+}
+
+a img {
+    width: 15px;
+    height: 15px;
+}

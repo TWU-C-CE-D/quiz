@@ -1,0 +1,15 @@
+.body {
+    height: 800px;
+    width: 100%;
+    background-color: #ededed;
+}
+
+.app {
+    height: 650px;
+    width: 900px;
+    float: left;
+    text-align: center;
+    margin-left: 50px;
+    margin-top: 50px;
+    background-color: #ffffff;
+}
