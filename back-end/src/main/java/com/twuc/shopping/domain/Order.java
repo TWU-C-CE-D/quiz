@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * Created by wudibin
@@ -21,17 +22,11 @@ public class Order {
 
     @Id
     @GeneratedValue
-    private int id;
+    private String id;
 
-    private String name;
+    private int total;
 
-    private int price;
-
-    private int number;
-
-    private String unit;
-
-    @ManyToOne
-    private Product product;
+    @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "order")
+    private List<OrderItem> orderItem;
 
 }

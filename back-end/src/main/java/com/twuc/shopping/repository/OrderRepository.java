@@ -7,5 +7,5 @@ import org.springframework.data.repository.CrudRepository;
  * Created by wudibin
  * 2020/10/23
  */
-public interface OrderRepository extends CrudRepository<Order, Integer> {
+public interface OrderRepository extends CrudRepository<Order, String> {
 }

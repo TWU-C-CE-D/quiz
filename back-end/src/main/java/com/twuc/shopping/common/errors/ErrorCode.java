@@ -15,7 +15,9 @@ import java.util.stream.Collectors;
 public enum ErrorCode {
 
     INVALID_REQUEST(10000, "请求参数错误"),
-    PRODUCT_NAME_EXIST(10001, "商品名称已存在");
+    PRODUCT_NAME_EXIST(10001, "商品名称已存在"),
+    SHOPPING_CART_EMPTY(10002, "购物车为空"),
+    PRODUCT_NOT_EXIST(10003, "商品不存在");
 
     private static final Set<String> ERROR_CODE_VALUES = ImmutableSet.copyOf(
             Arrays.stream(values()).map(Enum::toString).collect(Collectors.toSet())

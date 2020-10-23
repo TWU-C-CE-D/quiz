@@ -3,8 +3,7 @@ package com.twuc.shopping.service;
 import com.twuc.shopping.common.errors.ErrorCode;
 import com.twuc.shopping.common.exceptions.BadRequestException;
 import com.twuc.shopping.domain.Product;
-import com.twuc.shopping.model.product.AddProductRequest;
-import com.twuc.shopping.model.product.GetProductsResponse;
+import com.twuc.shopping.model.addProduct.AddProductRequest;
 import com.twuc.shopping.repository.ProductRepository;
 
 import java.util.List;

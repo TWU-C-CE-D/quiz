@@ -17,19 +17,19 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "ShopProduct")
-public class Product {
+@Table(name = "ShopOrderItem")
+public class OrderItem {
 
     @Id
-    private String name;
+    @GeneratedValue
+    private String id;
 
-    private int price;
+    private int number;
 
-    private String unit;
+    @ManyToOne
+    private Order order;
 
-    private String url;
-
-    @OneToMany(cascade = CascadeType.REMOVE, mappedBy = "product")
-    private List<OrderItem> orderItem;
+    @ManyToOne
+    private Product product;
 
 }

@@ -51,6 +51,6 @@ public class CorsConfig {
 
     @Bean
     public OrderService orderService() {
-        return new OrderService(orderRepository);
+        return new OrderService(orderRepository, productRepository);
     }
 }

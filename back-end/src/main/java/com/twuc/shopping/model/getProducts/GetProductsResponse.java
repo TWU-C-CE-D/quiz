@@ -1,4 +1,4 @@
-package com.twuc.shopping.model.product;
+package com.twuc.shopping.model.getProducts;
 
 import lombok.*;
 
