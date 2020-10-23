@@ -5,7 +5,7 @@ import com.twuc.shopping.common.exceptions.BadRequestException;
 import com.twuc.shopping.domain.Order;
 import com.twuc.shopping.domain.OrderItem;
 import com.twuc.shopping.domain.Product;
-import com.twuc.shopping.model.addOrder.ProductVO;
+import com.twuc.shopping.model.addOrder.AddProductVO;
 import com.twuc.shopping.repository.OrderRepository;
 import com.twuc.shopping.repository.ProductRepository;
 
@@ -29,9 +29,9 @@ public class OrderService {
         this.productRepository = productRepository;
     }
 
-    public void save(List<ProductVO> productVOs) {
+    public void save(List<AddProductVO> addProductVOS) {
         AtomicInteger total = new AtomicInteger();
-        List<OrderItem> orderItems = productVOs.stream().map(p -> {
+        List<OrderItem> orderItems = addProductVOS.stream().map(p -> {
             Optional<Product> optional = productRepository.findById(p.getName());
             if (!optional.isPresent()) {
                 throw new BadRequestException(ErrorCode.PRODUCT_NOT_EXIST);
@@ -50,4 +50,9 @@ public class OrderService {
                 .build();
         orderRepository.save(order);
     }
+
+    public List<Order> findAll() {
+        return orderRepository.findAll();
+    }
+
 }

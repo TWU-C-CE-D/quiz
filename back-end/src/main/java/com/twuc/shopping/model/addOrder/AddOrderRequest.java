@@ -15,6 +15,6 @@ import java.util.List;
 public class AddOrderRequest {
 
     @NonNull
-    List<ProductVO> productVOs;
+    List<AddProductVO> addProductVOS;
 
 }

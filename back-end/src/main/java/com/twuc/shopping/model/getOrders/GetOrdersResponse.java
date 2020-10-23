@@ -1,11 +1,11 @@
-package com.twuc.shopping.model.addOrder;
+package com.twuc.shopping.model.getOrders;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotNull;
+import java.util.List;
 
 /**
  * Created by wudibin
@@ -15,12 +15,8 @@ import javax.validation.constraints.NotNull;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductVO {
+public class GetOrdersResponse {
 
-    @NotNull
-    private String name;
-
-    @NotNull
-    private int number;
+    private List<GetOrderVO> getOrderVOs;
 
 }
